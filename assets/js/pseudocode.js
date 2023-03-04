@@ -20,3 +20,5 @@
 
 // WHEN user click one of the searchHistory button in the list (event listner)
   // THEN data are presented again (get from localStorage, or use reload cache?)
+
+// create variables that can hold user input after submitting it
