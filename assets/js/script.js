@@ -51,13 +51,43 @@ var searchFormHandler = function(event){
       iconImg.attr('src', iconURL);
       currentDate.text(city + '(' + date + ')');
       currentDate.append(iconImg);
-
-      currentTemp.text('Temp: ' + currentTempData + '℉');
+      // current weather information
+      currentTemp.text('Temp: ' + currentTempData + ' ℉');
       currentWind.text('Wind: ' + currentWindData + ' MPH');
       currentHumidity.text('Humidity: ' + currentHumidityData + '%');
+
+    // display future 5-day weather information
+    var weatherForecast = function(){
+      var queryForecastURL ='http://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&appid=' + APIKey;
+      fetch(queryForecastURL)
+      .then(function(response){
+        return response.json();
+      })
+      .then(function(data){
+        console.log(data);  
+        for(var i=1; i<6; i++){
+          var futureDate = today.add(i, 'day').format('M/DD/YYYY');
+          $('#' + i).children('.date').text(futureDate);
+          console.log($('#' + i));
+          // select UTC 15:00 as the representative
+          var index = i*8-1;
+          var futureIcon = data.list[index].weather[0].icon;
+          var futureIconURL = 'http://openweathermap.org/img/wn/' + futureIcon + '@2x.png';
+          $('#' + i).children('.icon').attr('src', futureIconURL);
+          $('#' + i).children('.temp').text('Temp: ' + data.list[index].main.temp + ' ℉');
+          $('#' + i).children('.wind').text('Wind: ' + data.list[index].wind.speed + ' MPH');
+          $('#' + i).children('.humidity').text('Humidity: ' + data.list[index].main.humidity + '%');
+        };
+      })    
+    }
+
+    weatherForecast();
+
     });
   });
 }
+
+
 
 searchForm.on('submit', searchFormHandler);
 
