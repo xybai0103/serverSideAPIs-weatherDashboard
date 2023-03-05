@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang='en'>
-Weather 
+  
 <head>
     <meta charset='UTF-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -22,12 +22,12 @@ Weather
     <h1>Weather Dashboard</h1>
   </header>
 
-  <main class='d-flex'>
+  <main class='d-flex row'>
     <div class='col-12 col-md-3'>
       <div class = 'search-container'>
         <h2>Search for a City:</h2>
         <form id='search-form'>
-          <input class='d-block' id='search-city' type='text' placeholder='San Diego'>
+          <input class='d-block' id='search-city' type='text' autofocus='true' placeholder='San Diego'>
           <button type='submit' class='btn search'>Search</button>
         </form>
         <hr/>
@@ -42,15 +42,15 @@ Weather
 
     <div class='col-12 col-md-9'>
       <div class ='current-weather-container'>
-        <h2 class='city-name' id='current-date'>Atlanta (9/13/2022)</h2>
-        <p class='temp' id='current-temp'>Temp: 76.62</p>
-        <p class='wind' id='current-wind'>wind: 8.43 MPH</p>
-        <p class='humidity' id='current-humidity'>Humidity: 44%</p>
+        <h2 class='city-name' id='current-date'></h2>
+        <p class='temp' id='current-temp'></p>
+        <p class='wind' id='current-wind'></p>
+        <p class='humidity' id='current-humidity'></p>
       </div>
 
       <div>
         <h3>5-Day Forecast:</h3>
-        <div class ='weather-forecast-container d-flex'>
+        <div class ='weather-forecast-container d-flex row'>
           <div class='weather-forecast col-12 col-md-2' id='1'>
             <h4 class='date'>9/14/2022</h4>
             <i class='icon'>dfdfd</i>
