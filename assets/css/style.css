@@ -1,6 +1,7 @@
 header{
     background-color: blue;
-    padding: 0.4rem 0 0.4rem 50rem;
+    background: linear-gradient(90deg, #6495ED, 30%, #0D2241);
+    padding: 0.6rem 0;
     margin-bottom: 0.3rem;
 }
 
@@ -11,6 +12,8 @@ h1, h2, h3, h4, p, .btn {
 h1 {
     font-size: 1.8rem;
     color: white;
+    text-align: end;
+    margin-right: 25%;
 }
 
 h2 {
@@ -42,7 +45,7 @@ h4 {
 
 .search {
     color: white;
-    background-color: blue;
+    background-color: #6495ED;
 }
 
 #search-list {
@@ -64,7 +67,7 @@ hr {
 
 .current-weather-container {
     padding: 0.3rem 0;
-    margin: 0.4rem 6rem 0.8rem 0;
+    margin: 0.4rem 0 0.8rem 0;
 }
 
 img {
@@ -75,7 +78,8 @@ img {
 .weather-forecast {
     padding: 0.2rem 0;
     margin-right: 1.4rem;
-    background-color: navy;
+    margin-bottom: 1rem;
+    background-color: #0D2241;
 }
 
 .date, .icon, .temp, .wind, .humidity {
