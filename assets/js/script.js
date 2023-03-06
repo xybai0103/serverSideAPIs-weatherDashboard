@@ -17,12 +17,20 @@ var searchList = $('#search-list');
 var cities = [];
 
 
+
 // searchBtnHandler
 var searchFormHandler = function(event){
   event.preventDefault();
 
-  // to collect user input for the city name and store it in a variable
-  var city = $('#search-city').val();
+  // if click/submit search form, collect user input for the city name
+  // jQuery uses .is; js uses .matches
+  if($(this).is('#search-form')){
+    var city = $('#search-city').val();
+  // if click search-item button, use city name of the button
+  }else{
+    var city = $(this).text();
+  }
+  
   // Using Geocoding API, convert a city name into the exact geographical coordinates
   var queryGeoURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + APIKey;
 
@@ -96,13 +104,13 @@ var searchFormHandler = function(event){
       cities = JSON.parse(localStorage.getItem('cities'));
   
       for (var i = 0; i < cities.length; i++) {
+        // create a clickable button for each city in the search list
         var searchListBtn = $('<button>');
-        searchListBtn.attr({
-          'class': 'btn search-item',
-          'type': 'submit'
-        });
+        searchListBtn.addClass('btn search-item');
         searchListBtn.text(cities[i]);
         searchList.append(searchListBtn);
+        // Add an event listenr to each of the search list buttons('submit'only works with form)
+        searchListBtn.on('click', searchFormHandler);
       }
     }
     // store search items in local storage
@@ -112,9 +120,14 @@ var searchFormHandler = function(event){
 
     // get search items from local storage. Include ||[] for when cities is an empty array
     cities = JSON.parse(localStorage.getItem('cities'))||[];
-    cities.push(city);
-    storeCities();
+    // if a city already exist in the local storage, do not store it again
+    if (!cities.includes(city)){
+      cities.push(city);
+      storeCities();
+    }
+    
     renderCities();
+
     // clear input area
     $('#search-city').val('');
 
@@ -122,9 +135,9 @@ var searchFormHandler = function(event){
   });
 }
 
+// Add an event listenr to the searchForm
 searchForm.on('submit', searchFormHandler);
-searchListBtn.on('submit', searchFormHandler);
-// listItem.on('click', searchFormHandler);
+
 
 // adjust flexbox
 
