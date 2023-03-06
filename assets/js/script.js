@@ -11,15 +11,18 @@ var currentDate = $('#current-date');
 var currentTemp = $('#current-temp');
 var currentWind = $('#current-wind');
 var currentHumidity = $('#current-humidity');
+// search list
+var searchList = $('#search-list');
+// search list item
+var cities = [];
 
 
 // searchBtnHandler
 var searchFormHandler = function(event){
   event.preventDefault();
-  
+
   // to collect user input for the city name and store it in a variable
   var city = $('#search-city').val();
-
   // Using Geocoding API, convert a city name into the exact geographical coordinates
   var queryGeoURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + APIKey;
 
@@ -64,16 +67,20 @@ var searchFormHandler = function(event){
         return response.json();
       })
       .then(function(data){
-        console.log(data);  
+        console.log(data); 
+
         for(var i=1; i<6; i++){
+          // display future 5-day date
           var futureDate = today.add(i, 'day').format('M/DD/YYYY');
           $('#' + i).children('.date').text(futureDate);
-          console.log($('#' + i));
+
           // select UTC 15:00 as the representative
           var index = i*8-1;
+          // display icons for weather forecast
           var futureIcon = data.list[index].weather[0].icon;
           var futureIconURL = 'http://openweathermap.org/img/wn/' + futureIcon + '@2x.png';
           $('#' + i).children('.icon').attr('src', futureIconURL);
+          // display weather forecast information
           $('#' + i).children('.temp').text('Temp: ' + data.list[index].main.temp + ' ℉');
           $('#' + i).children('.wind').text('Wind: ' + data.list[index].wind.speed + ' MPH');
           $('#' + i).children('.humidity').text('Humidity: ' + data.list[index].main.humidity + '%');
@@ -83,11 +90,42 @@ var searchFormHandler = function(event){
 
     weatherForecast();
 
+    // show search items in a list
+    function renderCities() {
+      searchList.innerHTML = '';
+      cities = JSON.parse(localStorage.getItem('cities'));
+  
+      for (var i = 0; i < cities.length; i++) {
+        var searchListBtn = $('<button>');
+        searchListBtn.attr({
+          'class': 'btn search-item',
+          'type': 'submit'
+        });
+        searchListBtn.text(cities[i]);
+        searchList.append(searchListBtn);
+      }
+    }
+    // store search items in local storage
+    function storeCities() {
+      localStorage.setItem('cities', JSON.stringify(cities));
+    }
+
+    // get search items from local storage. Include ||[] for when cities is an empty array
+    cities = JSON.parse(localStorage.getItem('cities'))||[];
+    cities.push(city);
+    storeCities();
+    renderCities();
+    // clear input area
+    $('#search-city').val('');
+
     });
   });
 }
 
-
-
 searchForm.on('submit', searchFormHandler);
+searchListBtn.on('submit', searchFormHandler);
+// listItem.on('click', searchFormHandler);
+
+// adjust flexbox
+
 
