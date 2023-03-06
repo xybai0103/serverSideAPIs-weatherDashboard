@@ -1,3 +1,4 @@
+/* Initialize variables */
 // an acquired API key to use OpenWeather API
 var APIKey = '5d2d2bb20c65ab0c48043cb7483bf366';
 // date format
@@ -15,13 +16,36 @@ var currentWind = $('#current-wind');
 var currentHumidity = $('#current-humidity');
 // search list
 var searchList = $('#search-list');
-// search list item
-var cities = [];
+// get search items from local storage. Include ||[] for when cities is an empty array
+var cities = JSON.parse(localStorage.getItem('cities'))||[];
 
-// hide the container of weather information when first loading the page
-weatherInfo.hide();
 
-// searchBtnHandler
+
+/* Define functions */
+// Define storeCities function to store search items in local storage
+function storeCities() {
+  localStorage.setItem('cities', JSON.stringify(cities));
+}
+
+
+// Define renderCities function to show search items in a list
+function renderCities() {
+  // jQuery uses .html(''); js uses .innerHTML=''
+  searchList.html('');
+
+  for (var i = 0; i < cities.length; i++) {
+    // create a clickable button for each city in the search list
+    var searchListBtn = $('<button>');
+    searchListBtn.addClass('btn search-item');
+    searchListBtn.text(cities[i]);
+    searchList.append(searchListBtn);
+    // Add an event listenr to each of the search list buttons('submit'only works with form)
+    searchListBtn.on('click', searchFormHandler);
+  }
+}
+
+
+// Define searchFormHandler
 var searchFormHandler = function(event){
   event.preventDefault();
 
@@ -102,48 +126,35 @@ var searchFormHandler = function(event){
     weatherForecast();
 
     // when submit the search form, show weather information on the right
-    weatherInfo.show();
-
-    // show search items in a list
-    function renderCities() {
-      // jQuery uses .html(''); js uses .innerHTML=''
-      searchList.html('');
-      cities = JSON.parse(localStorage.getItem('cities'));
-  
-      for (var i = 0; i < cities.length; i++) {
-        // create a clickable button for each city in the search list
-        var searchListBtn = $('<button>');
-        searchListBtn.addClass('btn search-item');
-        searchListBtn.text(cities[i]);
-        searchList.append(searchListBtn);
-        // Add an event listenr to each of the search list buttons('submit'only works with form)
-        searchListBtn.on('click', searchFormHandler);
-      }
-    }
-    // store search items in local storage
-    function storeCities() {
-      localStorage.setItem('cities', JSON.stringify(cities));
-    }
-
-    // get search items from local storage. Include ||[] for when cities is an empty array
-    cities = JSON.parse(localStorage.getItem('cities'))||[];
+    weatherInfo.show(); 
 
     // if a city already exist in the local storage, do not store it again
     if (!cities.includes(city)){
       cities.push(city);
       storeCities();
     }
+
     renderCities();
+
     // clear input area
     $('#search-city').val('');
     });
   });
 }
 
-// Add an event listenr to the searchForm
+
+/* Add an event listener to the searchForm */
 searchForm.on('submit', searchFormHandler);
 
-//$(document).ready(searchFormHandler);
+
+/* when first loading the page or reloading the page:*/
+  // Call renderCities function to show search items in a list on the left
+  // **Can not call at the beginning before defining the searchFormHandler function
+  renderCities();
+  // hide the container of weather information on the right
+  weatherInfo.hide();
+
+
 // adjust flexbox
 
 
