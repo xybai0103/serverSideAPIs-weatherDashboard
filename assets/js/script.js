@@ -6,6 +6,8 @@ var date = today.format('M/DD/YYYY');
 // search city weather
 var searchBtn = $('.btn search');
 var searchForm = $('#search-form');
+// Weather information displayed on the right of the webpage
+var weatherInfo = $('.weather-info');
 // current weather
 var currentDate = $('#current-date');
 var currentTemp = $('#current-temp');
@@ -16,7 +18,8 @@ var searchList = $('#search-list');
 // search list item
 var cities = [];
 
-
+// hide the container of weather information when first loading the page
+weatherInfo.hide();
 
 // searchBtnHandler
 var searchFormHandler = function(event){
@@ -98,9 +101,13 @@ var searchFormHandler = function(event){
 
     weatherForecast();
 
+    // when submit the search form, show weather information on the right
+    weatherInfo.show();
+
     // show search items in a list
     function renderCities() {
-      searchList.innerHTML = '';
+      // jQuery uses .html(''); js uses .innerHTML=''
+      searchList.html('');
       cities = JSON.parse(localStorage.getItem('cities'));
   
       for (var i = 0; i < cities.length; i++) {
@@ -120,17 +127,15 @@ var searchFormHandler = function(event){
 
     // get search items from local storage. Include ||[] for when cities is an empty array
     cities = JSON.parse(localStorage.getItem('cities'))||[];
+
     // if a city already exist in the local storage, do not store it again
     if (!cities.includes(city)){
       cities.push(city);
       storeCities();
     }
-    
     renderCities();
-
     // clear input area
     $('#search-city').val('');
-
     });
   });
 }
@@ -138,7 +143,7 @@ var searchFormHandler = function(event){
 // Add an event listenr to the searchForm
 searchForm.on('submit', searchFormHandler);
 
-
+//$(document).ready(searchFormHandler);
 // adjust flexbox
 
 
