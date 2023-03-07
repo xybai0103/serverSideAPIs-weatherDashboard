@@ -155,6 +155,3 @@ searchForm.on('submit', searchFormHandler);
   weatherInfo.hide();
 
 
-// adjust flexbox
-
-
