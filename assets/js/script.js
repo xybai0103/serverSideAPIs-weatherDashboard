@@ -84,7 +84,7 @@ var searchFormHandler = function(event){
       // get the icon code
       var currentIcon = data.weather[0].icon;
       // Set the icon using an <img> tag with the icon URL
-      var iconURL = 'http://openweathermap.org/img/wn/' + currentIcon + '@2x.png';
+      var iconURL = 'https://openweathermap.org/img/wn/' + currentIcon + '@2x.png';
       var iconImg = $('<img>');
       iconImg.attr('src', iconURL);
       currentDate.text(city + '(' + date + ')');
@@ -96,7 +96,7 @@ var searchFormHandler = function(event){
 
     // display future 5-day weather information
     var weatherForecast = function(){
-      var queryForecastURL ='http://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&appid=' + APIKey;
+      var queryForecastURL ='https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&appid=' + APIKey;
       fetch(queryForecastURL)
       .then(function(response){
         return response.json();
@@ -113,7 +113,7 @@ var searchFormHandler = function(event){
           var index = i*8-1;
           // display icons for weather forecast
           var futureIcon = data.list[index].weather[0].icon;
-          var futureIconURL = 'http://openweathermap.org/img/wn/' + futureIcon + '@2x.png';
+          var futureIconURL = 'https://openweathermap.org/img/wn/' + futureIcon + '@2x.png';
           $('#' + i).children('.icon').attr('src', futureIconURL);
           // display weather forecast information
           $('#' + i).children('.temp').text('Temp: ' + data.list[index].main.temp + ' ℉');
