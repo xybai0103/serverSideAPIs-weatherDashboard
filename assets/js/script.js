@@ -59,7 +59,7 @@ var searchFormHandler = function(event){
   }
   
   // Using Geocoding API, convert a city name into the exact geographical coordinates
-  var queryGeoURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + APIKey;
+  var queryGeoURL = 'https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + APIKey;
 
   fetch(queryGeoURL)
   .then(function(response){
@@ -70,7 +70,7 @@ var searchFormHandler = function(event){
     var lon = data[0].lon;
 
     // Call for current weather data
-    var queryURL = 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&appid=' + APIKey;
+    var queryURL = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&appid=' + APIKey;
 
     fetch(queryURL)
     .then(function(response){
